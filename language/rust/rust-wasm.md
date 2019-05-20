@@ -1,4 +1,4 @@
-title: Rust与wasm: wasm-bindgen
+title: "Rust与wasm: wasm-bindgen"
 data: 2019-03-30
 ---
 ## 在Rust中操纵Js对象
