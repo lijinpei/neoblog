@@ -1,0 +1,53 @@
+title: Rust学习笔记
+data: 2019-03-20
+---
+## Borrow:
+borrow/mutably borrow
+## Copy:
+默认"move semantics",如果一个类型实现了std::marker::Copy则"copy semantics".
+copy和move都是bitwise的动作，不同的是对操作过之后变量的生命期的影响.
+
+## Clone:
+clone()是显式的动作.
+若T:Copy，则T:Clone
+
+## Drop:
+drop()是隐式的动作,显式调用drop()是一个编译错误.但是可以std::mem::drop.
+我本以为std::mem::drop()是一个buildtin,drop()的时候设置一个flag,在超出作用域的时候检查这个flag决定是否需要drop(),这个东西显然can not implemented as a library,不过这玩意儿的实现实际上不需要builtin
+
+```Rust
+#[inline]
+#[stable(feature = "rust1", since = "1.0.0")]
+pub fn drop<T>(_x: T) { }
+```
+
+那么问题来了，这个代码你怎么办:
+
+```Rust
+fn main() {
+    let b = std::env::args().count() > 0;
+    let s = "hello".to_string();
+    if b {
+        std::mem::drop(s);
+    }
+    if !b {
+        println!("{}", s);
+    }
+}
+```
+
+答案是Rust拒绝接受这个代码(编译报错),由此可见，Rust编译器有点愚蠢/比较保守/分析不精确/error on the safeside/有些分析是基于region(scope))的.
+
+等一下,基于region/scope,并不是所有的CFG都有Region结构的,如果你呆在Dijkstra的Structured Programming框架内,那么所有的CFG均reducible,可以划分region,但是如果有goto呢?嗯，我查了一下[Rust没有goto](https://mail.mozilla.org/pipermail/rust-dev/2014-March/009145.html)，好吧.
+
+## Minutiae
+以上是big picture，下面说一些细枝末节:
+
+1. immutable reference:Copy + Clone, mutable reference: !Copy + !Clone.(这个稍微想一下就应该是这样的,因为reference borrwoing rule)
+2. 当使用derive自动实现Copy,Clone时，会自动把这些triat bound加到type parameter上.
+
+关于2，我需要找一个反例,TODO.
+
+### Clone需要一个lang_item
+
+
