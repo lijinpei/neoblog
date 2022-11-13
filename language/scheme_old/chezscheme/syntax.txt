@@ -1,0 +1,35 @@
+syntactic extension/macro
+
+(keyword subform ...)
+improper list
+singleton identifier
+
+transformer: transformation procedure
+
+define-syntax
+let-syntax
+letrec-syntax
+
+syntax-rules
+ordinary procedure: accept one argument
+  syntax-case
+  syntax
+identifier-syntax
+make-variable-transformer
+
+at the start of evalution(before compilation or interpretation)
+syntax-expander
+core syntax form
+lexical scoping (for variables and keywords)
+
+chez scheme features:
+module
+local import
+meta definiton
+
+output constructor:
+build-
+构建Lsrc的Expr项
+
+chi-x expand 结构x
+parse-x 帮助parse x

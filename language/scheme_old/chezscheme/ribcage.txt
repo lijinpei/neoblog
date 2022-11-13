@@ -1,0 +1,58 @@
+scheme中默认是shared_ptr?
+extensible-ribcage
+fixed-ribcage
+top-ribcage
+
+(extend-ribcage! ribcage id label/pl)
+ribcage必须是extensible-ribcage, id是syntax-object/有完整的wrap,label/pl是label-properties-list
+如果ribcage的car为'()则新建一个hash-table为ht,否则ribcage的car为ht.
+ht[id.expression] -> (cons (id.wrap.mark label/pl))的list
+
+(import-extend-ribcage! ribcage id)
+ribcage必须是extensible
+id必须是resolved-id
+
+(extend-ribcage-barrier! ribcage killer-id)
+ribage必须是extensible
+id必须有完整的wrap
+将killer-id make-barrier的结果extend到ribcage中
+
+(extend-ribcage-subst! ribcage import-iface)
+ribcage必须是extensible
+将import-iface cons到ribcage的chunks中
+
+(lookup-global-lable/pl sym marks token)
+(store-golbal-subst id token new-marks)
+
+rho : label -> local_label
+
+(lookup-global* label)
+(lookup-global label)
+(lookup* x r)
+(lookup x r)
+
+(id->label/pl id w)
+(id->label/pl/retry id w)
+(id->label id w)
+id是symbol/syntax-objext/annotation
+返回的是label/pl
+实现:
+top-id-free-label/pl
+(search sym subst marks)
+subst: shift|ribcage的list
+marks: mark的list
+
+join-subst
+join-marks
+same-marks
+
+interface
+mbodyit
+frob
+progdesc
+libdesc
+ctdesc
+rtdesc
+
+visit-library
+invoke-library
